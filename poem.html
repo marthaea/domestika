@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Meaningless Demeanors</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background: linear-gradient(to bottom, #87CEFA, #4682B4);
+      color: #fff;
+      text-align: center;
+      padding: 50px;
+      min-height: 100vh;
+      margin: 0;
+      overflow-y: scroll; /* Make the page scrollable */
+      transition: background 1s ease;
+    }
+    .line {
+      opacity: 0;
+      transition: opacity 1s ease;
+      margin: 20px 0;
+      font-size: 1.3em;
+    }
+    .visible {
+      opacity: 1;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 30px;
+    }
+
+    /* Cloud Animation (larger size) */
+    .clouds {
+      position: absolute;
+      top: 30%;
+      left: -15%;
+      width: 50%;
+      height: 20%;
+      background-image: url('cloud.png'); /* Replace with your cloud image */
+      background-size: cover;
+      animation: moveClouds 30s linear infinite;
+    }
+
+    /* Dust Animation (larger size) */
+    .dust {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: rgba(255, 223, 186, 0.6);
+      border-radius: 50%;
+      animation: dustMove 4s infinite;
+    }
+
+    @keyframes moveClouds {
+      0% { left: -15%; }
+      100% { left: 100%; }
+    }
+
+    @keyframes dustMove {
+      0% {
+        transform: translateY(0) translateX(0);
+      }
+      100% {
+        transform: translateY(200px) translateX(150px);
+      }
+    }
+
+    /* Opening page style */
+    .intro-page {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 1.5em;
+      z-index: 10;
+      opacity: 1;
+      transition: opacity 1s ease;
+    }
+
+    .intro-page.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Intro Page -->
+  <div class="intro-page" id="introPage">
+    <p>Welcome! Click anywhere to begin your journey through the poem.</p>
+    <p>Each click will reveal the next line.</p>
+    <p>Enjoy the tranquility of the experience.</p>
+  </div>
+
+  <h1>Meaningless Demeanors</h1>
+  <h3>Poem by Martha Praise Katusiime</h3>
+  <div id="poem">
+    <p class="line">The clouds are blue,</p>
+    <p class="line">The sky is azure and peaceful.</p>
+    <p class="line">All I can think about is the tranquility within.</p>
+    <p class="line">The reminiscent tranquility of childhood.</p>
+
+    <p class="line">All these meaningless demeanors I remember.</p>
+    <p class="line">Jumping in the dust, eating dirt,</p>
+    <p class="line">Not thinking about what tomorrow would bring.</p>
+    <p class="line">But it has all come to pass.</p>
+
+    <p class="line">Meaningless demeanors no longer reminiscent.</p>
+    <p class="line">Tomorrow is all I think about</p>
+    <p class="line">And nothing more than the grandeur,</p>
+    <p class="line">The grandeur of reality.</p>
+  </div>
+
+  <!-- Background Sound -->
+  <audio id="backgroundSound" loop>
+    <source src="wind.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    const lines = document.querySelectorAll('.line');
+    let index = 0;
+    const introPage = document.getElementById('introPage');
+    const backgroundSound = document.getElementById('backgroundSound');
+    
+    // Event to start the poem and sound
+    document.body.addEventListener('click', () => {
+      if (index === 0) {
+        introPage.classList.add('hidden');
+        backgroundSound.play(); // Start sound after first click
+      }
+
+      if (index < lines.length) {
+        lines[index].classList.add('visible');
+
+        // Background color transition
+        if (index === 3) {
+          document.body.style.background = 'linear-gradient(to bottom, #FFD700, #FF8C00)';
+        }
+        if (index === 7) {
+          document.body.style.background = 'linear-gradient(to bottom, #2F4F4F, #000000)';
+        }
+
+        index++;
+      }
+    });
+
+    // Dust effect function
+    function createDust() {
+      const dust = document.createElement('div');
+      dust.classList.add('dust');
+      document.body.appendChild(dust);
+      dust.style.left = `${Math.random() * window.innerWidth}px`;
+      dust.style.top = `${Math.random() * window.innerHeight}px`;
+
+      setTimeout(() => dust.remove(), 4000);
+    }
+
+    setInterval(createDust, 500);
+
+    // Cloud animation function
+    function createClouds() {
+      const cloud = document.createElement('div');
+      cloud.classList.add('clouds');
+      document.body.appendChild(cloud);
+    }
+
+    // Create clouds at regular intervals
+    setInterval(createClouds, 5000);
+  </script>
+
+</body>
+</html>
